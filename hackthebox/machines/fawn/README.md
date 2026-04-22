@@ -29,6 +29,8 @@ PORT   STATE SERVICE VERSION
 Service Info: OS: Unix
 ```
 
+![Nmap scan](screenshots/nmap.png)
+
 O scan revelou apenas uma porta aberta: **21/tcp** rodando FTP (vsftpd 3.0.3), com login anônimo habilitado e o arquivo `flag.txt` listado diretamente.
 
 ## Enumeração
@@ -69,6 +71,10 @@ ftp> get flag.txt        # download via EPSV; 32 bytes recebidos em 00:00
 ftp> bye                 # 221 Goodbye.
 $ cat flag.txt
 ```
+
+![Sessão FTP](screenshots/ftp.png)
+
+![Flag](screenshots/flag.png)
 
 ## Escalação de Privilégios
 
