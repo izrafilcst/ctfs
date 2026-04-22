@@ -27,6 +27,8 @@ PORT   STATE SERVICE VERSION
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
+![Nmap scan](screenshots/nmap%20command.png)
+
 O scan revelou apenas uma porta aberta: **23/tcp** rodando Telnet.
 
 ## Enumeração
@@ -53,6 +55,8 @@ telnet 10.129.124.197 23
 # Login: root
 # Password: <vazio>
 ```
+
+![Sessão Telnet](screenshots/telnet.png)
 
 ### Coleta da Flag
 
