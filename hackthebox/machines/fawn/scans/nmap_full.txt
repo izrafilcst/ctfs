@@ -1,0 +1,26 @@
+# Nmap 7.98 scan initiated Tue Apr 21 22:58:04 2026 as: /usr/lib/nmap/nmap --privileged -sV -sC -p- --min-rate 5000 -oN nmap_full.txt 10.129.19.3
+Warning: 10.129.19.3 giving up on port because retransmission cap hit (10).
+Nmap scan report for 10.129.19.3
+Host is up (0.22s latency).
+Not shown: 65506 closed tcp ports (reset), 28 filtered tcp ports (no-response)
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+| ftp-syst: 
+|   STAT: 
+| FTP server status:
+|      Connected to ::ffff:10.10.14.103
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 2
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+|_-rw-r--r--    1 0        0              32 Jun 04  2021 flag.txt
+Service Info: OS: Unix
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Apr 21 22:59:33 2026 -- 1 IP address (1 host up) scanned in 89.11 seconds
