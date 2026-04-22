@@ -14,6 +14,8 @@
 nmap -sV -sC -p- --min-rate 5000 -oN scans/nmap_full.txt <IP>
 ```
 
+![Nmap scan](screenshots/nmap.png)
+
 **Serviços encontrados:**
 
 | Porta | Protocolo | Serviço | Versão |
@@ -30,6 +32,8 @@ nmap -sV -sC -p- --min-rate 5000 -oN scans/nmap_full.txt <IP>
 # comandos de enumeração
 ```
 
+![Enumeração](screenshots/enum.png)
+
 **Observações:**
 
 ---
@@ -39,6 +43,8 @@ nmap -sV -sC -p- --min-rate 5000 -oN scans/nmap_full.txt <IP>
 ```bash
 # comandos de exploração
 ```
+
+![Exploração](screenshots/exploit.png)
 
 **Output relevante:**
 
@@ -65,6 +71,8 @@ nmap -sV -sC -p- --min-rate 5000 -oN scans/nmap_full.txt <IP>
 ---
 
 ## Flags
+
+![Flag](screenshots/flag.png)
 
 - User: `HTB{...}`
 - Root: `HTB{...}`
