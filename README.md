@@ -1,73 +1,68 @@
 # 🔓 CTF Write-ups & Security Research
 
-**Rafael Costa** — Engenheiro da Computação | AI Red Teamer | Brasília-DF
+**Rafael Costa** — Computer Engineer | AI Red Teamer | Brasília-DF
 
-Write-ups detalhados de máquinas HackTheBox, CTFs e pesquisa em segurança ofensiva.
-Cada write-up documenta o raciocínio completo: reconhecimento → exploração → escalação → lições aprendidas.
+Detailed write-ups for HackTheBox machines, CTFs, and offensive security research.
+Each write-up documents the full reasoning: reconnaissance → exploitation → escalation → lessons learned.
 
-> Não documento apenas o que fiz. Documento **por que** funcionou e **onde** isso aparece no mundo real.
+> I don't just document what I did. I document **why** it worked and **where** it shows up in the real world.
 
 ---
 
 ## 📊 Status
 
-| Plataforma | Resolvidas | Dificuldade | Ranking |
-|-----------|-----------|-------------|---------|
+| Platform | Solved | Difficulty | Ranking |
+|----------|--------|------------|---------|
 | HackTheBox Machines | X | Very Easy → Easy | Top Y% |
-| HackTheBox Academy | AI Red Teamer Path | Em andamento | — |
+| HackTheBox Academy | AI Red Teamer Path | In progress | — |
 | Bug Bounty | X reports | — | — |
 
-## 📝 Write-ups Recentes
+## 📝 Recent Write-ups
 
-| # | Máquina | OS | Dificuldade | Vetor Principal | Data |
-|---|---------|-----|------------|----------------|------|
-| 001 | [Meow](./hackthebox/machines/meow/) | Linux | Very Easy | Telnet sem autenticação | 03/04/2026 |
-| 002 | [Fawn](./hackthebox/machines/fawn/) | Linux | Very Easy | FTP anônimo | — |
-| 003 | [Dancing](./hackthebox/machines/dancing/) | Windows | Very Easy | SMB share aberto | — |
+| # | Machine | OS | Difficulty | Main Vector | Date |
+|---|---------|-----|-----------|-------------|------|
+| 001 | [Meow](./hackthebox/machines/meow/) | Linux | Very Easy | Telnet without authentication | 03/04/2026 |
+| 002 | [Fawn](./hackthebox/machines/fawn/) | Linux | Very Easy | Anonymous FTP | 21/04/2026 |
+| 003 | [Dancing](./hackthebox/machines/dancing/) | Windows | Very Easy | Open SMB share | — |
 
-## 🧠 Minha Metodologia
-
-Documentei meu processo de ataque completo em [methodology/my-methodology.md](./methodology/my-methodology.md).
-
-Resumo:
+## 🧠 My Methodology
 
 ```
-1. RECONHECIMENTO
+1. RECONNAISSANCE
    nmap -sV -sC -p- <target>
-   Identificar OS, serviços, versões
+   Identify OS, services, versions
 
-2. ENUMERAÇÃO
-   Por serviço: HTTP → gobuster/nikto | SMB → smbclient/enum4linux | FTP → login anônimo
-   Buscar: credenciais default, arquivos expostos, versões vulneráveis
+2. ENUMERATION
+   Per service: HTTP → gobuster/nikto | SMB → smbclient/enum4linux | FTP → anonymous login
+   Look for: default credentials, exposed files, vulnerable versions
 
-3. EXPLORAÇÃO
-   Testar credenciais default/vazias primeiro
-   Buscar exploit: searchsploit, Google "serviço versão exploit"
-   Exploração manual antes de Metasploit
+3. EXPLOITATION
+   Test default/empty credentials first
+   Search for exploits: searchsploit, Google "service version exploit"
+   Manual exploitation before Metasploit
 
-4. PÓS-EXPLORAÇÃO
-   Pegar flag de user
-   Enumerar: sudo -l, SUID (find / -perm -4000), cron, capabilities
-   GTFOBins para binários com SUID/sudo
+4. POST-EXPLOITATION
+   Grab user flag
+   Enumerate: sudo -l, SUID (find / -perm -4000), cron, capabilities
+   GTFOBins for binaries with SUID/sudo
 
-5. ESCALAÇÃO DE PRIVILÉGIOS
-   Executar vetor identificado
-   Pegar flag de root
+5. PRIVILEGE ESCALATION
+   Execute identified vector
+   Grab root flag
 
-6. DOCUMENTAÇÃO
-   Write-up completo com comandos, output, screenshots
-   Seção "Lições Aprendidas" obrigatória
+6. DOCUMENTATION
+   Full write-up with commands, output, screenshots
+   Mandatory "Lessons Learned" section
 ```
 
-## 📂 Estrutura do Repositório
+## 📂 Repository Structure
 
 ```
 .
 ├── README.md
-├── methodology/
-│   └── my-methodology.md
 ├── hackthebox/
 │   ├── machines/
+│   │   ├── _template/
 │   │   ├── meow/
 │   │   │   ├── README.md
 │   │   │   ├── scans/
@@ -78,11 +73,10 @@ Resumo:
 │       ├── ai-red-teamer/
 │       └── penetration-tester/
 ├── ctf-competitions/
-│   └── [evento]/[challenge]/
+│   └── [event]/[challenge]/
 ├── bug-bounty/
 │   └── disclosed/
 ├── tools/
-│   └── scripts customizados
 └── cheatsheets/
     ├── nmap.md
     ├── linux-privesc.md
@@ -90,50 +84,50 @@ Resumo:
     └── web-attacks.md
 ```
 
-## 🛠 Template de Write-up
+## 🛠 Write-up Template
 
-Cada write-up segue esta estrutura:
+Each write-up follows this structure:
 
 ```markdown
-# [Nome da Máquina]
+# [Machine Name]
 
-**OS:** Linux/Windows | **Dificuldade:** Easy | **Data:** DD/MM/AAAA
+**OS:** Linux/Windows | **Difficulty:** Easy | **Date:** DD/MM/YYYY
 
-## Resumo
-Uma linha descrevendo o vetor principal de ataque.
+## Summary
+One line describing the main attack vector.
 
-## Reconhecimento
-Nmap scan + análise de serviços.
+## Reconnaissance
+Nmap scan + service analysis.
 
-## Enumeração
-Investigação profunda do serviço vulnerável.
+## Enumeration
+Deep investigation of the vulnerable service.
 
-## Exploração
-Passo a passo da exploração com comandos e output.
+## Exploitation
+Step-by-step exploitation with commands and output.
 
-## Escalação de Privilégios
-Como saí de user para root/admin.
+## Privilege Escalation
+How I moved from user to root/admin.
 
 ## Flags
 - User: `[hash]`
 - Root: `[hash]`
 
-## Lições Aprendidas
-- O que esse ataque ensina sobre segurança no mundo real
-- Onde essa vulnerabilidade aparece em ambientes corporativos
-- Como defender contra esse vetor
+## Lessons Learned
+- What this attack teaches about real-world security
+- Where this vulnerability appears in corporate environments
+- How to defend against this vector
 ```
 
-## 🎯 Certificações em Andamento
+## 🎯 Certifications in Progress
 
-- [ ] CompTIA Security+ (previsão: jun/2026)
+- [ ] CompTIA Security+ (expected: Jun/2026)
 - [ ] HTB Certified Defensive AI Expert (CDAE)
 - [ ] HTB Certified Penetration Testing Specialist (CPTS)
 
-## 📬 Contato
+## 📬 Contact
 
 **Rafael Costa** — [LinkedIn](https://www.linkedin.com/in/rafael-costa-b1569b235/) | [Email](mailto:alves.rafasc@gmail.com) | [HackTheBox](https://app.hackthebox.com/users/3298107)
 
 ---
 
-*Atualizado semanalmente. Cada máquina resolvida é documentada em até 24h.*
+*Updated weekly. Each solved machine is documented within 24h.*

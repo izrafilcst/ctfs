@@ -1,25 +1,25 @@
 # Fawn
 
-**OS:** Linux | **Dificuldade:** Very Easy | **Data:** 21/04/2026
+**OS:** Linux | **Difficulty:** Very Easy | **Date:** 21/04/2026
 
-## Resumo
+## Summary
 
-Fawn foi uma máquina classificada como **Very Easy** que demonstrou riscos de configurações inseguras em serviços FTP. A exploração foi direta: identificação de um serviço FTP exposto com login anônimo habilitado, permitindo acesso aos arquivos sem autenticação.
+Fawn was a **Very Easy** machine that demonstrated risks of insecure FTP service configurations. The exploitation was straightforward: identification of an exposed FTP service with anonymous login enabled, allowing unauthenticated access to files.
 
-**Principais pontos:**
-- Serviço FTP (porta 21) exposto com login anônimo habilitado
-- Arquivo `flag.txt` acessível publicamente sem autenticação
-- Falha de configuração básica que expõe arquivos sensíveis
+**Key points:**
+- FTP service (port 21) exposed with anonymous login enabled
+- `flag.txt` publicly accessible without authentication
+- Basic misconfiguration exposing sensitive files
 
-## Reconhecimento
+## Reconnaissance
 
-### Scan Nmap
+### Nmap Scan
 
 ```bash
 nmap -sV -sC -p- --min-rate 5000 -oN nmap_full.txt 10.129.19.3
 ```
 
-**Resultado:**
+**Result:**
 
 ```
 PORT   STATE SERVICE VERSION
@@ -31,52 +31,52 @@ Service Info: OS: Unix
 
 ![Nmap scan](screenshots/nmap.png)
 
-O scan revelou apenas uma porta aberta: **21/tcp** rodando FTP (vsftpd 3.0.3), com login anônimo habilitado e o arquivo `flag.txt` listado diretamente.
+The scan revealed only one open port: **21/tcp** running FTP (vsftpd 3.0.3), with anonymous login enabled and `flag.txt` listed directly.
 
-## Enumeração
+## Enumeration
 
-Com o serviço FTP identificado, foi testado o acesso anônimo:
-
-```bash
-ftp 10.129.19.3
-# Name: anonymous
-# Password: <vazio>
-```
-
-Durante a enumeração, descobriu-se que:
-- O login anônimo estava habilitado sem restrições
-- O arquivo `flag.txt` estava listado no diretório raiz do FTP
-- O servidor negocia **Extended Passive Mode (EPSV)** automaticamente
-- O cliente FTP alternou para **modo binário** para a transferência
-
-## Exploração
-
-### Acesso Inicial
-
-O acesso ao servidor FTP foi obtido via login anônimo:
+With the FTP service identified, anonymous access was tested:
 
 ```bash
 ftp 10.129.19.3
 # Name: anonymous
-# Password: <vazio>
+# Password: <empty>
 ```
 
-### Coleta da Flag
+During enumeration, it was discovered that:
+- Anonymous login was enabled without restrictions
+- `flag.txt` was listed in the FTP root directory
+- The server negotiates **Extended Passive Mode (EPSV)** automatically
+- The FTP client switched to **binary mode** for the transfer
 
-Após o login, o arquivo foi baixado e lido localmente:
+## Exploitation
+
+### Initial Access
+
+Access to the FTP server was obtained via anonymous login:
 
 ```bash
-ftp> ls                  # lista flag.txt (32 bytes, Jun 04 2021)
-ftp> get flag.txt        # download via EPSV; 32 bytes recebidos em 00:00
+ftp 10.129.19.3
+# Name: anonymous
+# Password: <empty>
+```
+
+### Flag Collection
+
+After login, the file was downloaded and read locally:
+
+```bash
+ftp> ls                  # lists flag.txt (32 bytes, Jun 04 2021)
+ftp> get flag.txt        # download via EPSV; 32 bytes received in 00:00
 ftp> bye                 # 221 Goodbye.
 $ cat flag.txt
 ```
 
-![Sessão FTP](screenshots/ftp.png)
+![FTP session](screenshots/ftp.png)
 
 ![Flag](screenshots/flag.png)
 
-## Escalação de Privilégios
+## Privilege Escalation
 
 N/A
 
@@ -84,40 +84,27 @@ N/A
 
 - **Flag:** `035db21c881520061c53e0536e44f815`
 
-## Lições Aprendidas
+## Lessons Learned
 
-### Impacto no Mundo Real
+- **Vulnerability:** Anonymous FTP was enabled, allowing anyone to list and download files without credentials; `flag.txt` was stored directly in the FTP root with world-readable permissions
+- **Real world:** Anonymous FTP is still found on misconfigured file servers and legacy network devices in corporate environments, often exposing configuration files, backups, or internal documents
+- **Defense:** Disable anonymous login (`anonymous_enable=NO` in vsftpd.conf); replace FTP with SFTP or FTPS; restrict FTP access via firewall; audit file permissions on any exposed network service
 
-1. **Login anônimo FTP é perigoso**
-   - FTP anônimo permite que qualquer pessoa acesse os arquivos sem credenciais
-   - Deve ser desabilitado em ambientes de produção
-   - Se necessário, restringir a um diretório isolado sem arquivos sensíveis
-
-2. **FTP transmite dados em texto claro**
-   - Credenciais e arquivos trafegam sem criptografia
-   - Deve ser substituído por SFTP ou FTPS sempre que possível
-
-3. **Defesas Recomendadas**
-   - Desabilitar login anônimo (`anonymous_enable=NO` no vsftpd.conf)
-   - Restringir acesso FTP via firewall
-   - Migrar para SFTP/SCP para transferência segura de arquivos
-   - Auditar permissões de arquivos expostos em serviços de rede
-
-### Comandos Úteis
+### Useful Commands
 
 ```bash
-# Scan nmap com scripts e detecção de versão
+# Nmap scan with scripts and version detection
 nmap -sV -sC -p- --min-rate 5000 -oN nmap_full.txt 10.129.19.3
 ```
 
 ```bash
-# Conexão FTP anônima
+# Anonymous FTP connection
 ftp 10.129.19.3
 ```
 
 ```bash
-# Comandos FTP úteis
-ls          # listar arquivos
-get flag.txt  # baixar arquivo
-bye         # encerrar sessão
+# Useful FTP commands
+ls            # list files
+get flag.txt  # download file
+bye           # end session
 ```

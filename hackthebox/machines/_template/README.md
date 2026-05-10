@@ -1,14 +1,14 @@
-# [Nome da Máquina]
+# [Machine Name]
 
-**OS:** Linux/Windows | **Dificuldade:** Very Easy/Easy/Medium/Hard | **Data:** DD/MM/AAAA | **IP:** `10.10.10.X`
+**OS:** Linux/Windows | **Difficulty:** Very Easy/Easy/Medium/Hard | **Date:** DD/MM/YYYY | **IP:** `10.10.10.X`
 
-## Resumo
+## Summary
 
-> Uma linha descrevendo o vetor principal de ataque.
+> One line describing the main attack vector.
 
 ---
 
-## Reconhecimento
+## Reconnaissance
 
 ```bash
 nmap -sV -sC -p- --min-rate 5000 -oN scans/nmap_full.txt <IP>
@@ -16,45 +16,45 @@ nmap -sV -sC -p- --min-rate 5000 -oN scans/nmap_full.txt <IP>
 
 ![Nmap scan](screenshots/nmap.png)
 
-**Serviços encontrados:**
+**Services found:**
 
-| Porta | Protocolo | Serviço | Versão |
-|-------|-----------|---------|--------|
-|       |           |         |        |
+| Port | Protocol | Service | Version |
+|------|----------|---------|---------|
+|      |          |         |         |
 
 ---
 
-## Enumeração
+## Enumeration
 
-### [Serviço principal, ex: HTTP / FTP / SMB]
+### [Main service, e.g.: HTTP / FTP / SMB]
 
 ```bash
-# comandos de enumeração
+# enumeration commands
 ```
 
-![Enumeração](screenshots/enum.png)
+![Enumeration](screenshots/enum.png)
 
-**Observações:**
+**Observations:**
 
 ---
 
-## Exploração
+## Exploitation
 
 ```bash
-# comandos de exploração
+# exploitation commands
 ```
 
-![Exploração](screenshots/exploit.png)
+![Exploitation](screenshots/exploit.png)
 
-**Output relevante:**
+**Relevant output:**
 
 ```
-[colar output aqui]
+[paste output here]
 ```
 
 ---
 
-## Escalação de Privilégios
+## Privilege Escalation
 
 ```bash
 # sudo -l
@@ -62,10 +62,10 @@ nmap -sV -sC -p- --min-rate 5000 -oN scans/nmap_full.txt <IP>
 # cat /etc/crontab
 ```
 
-**Vetor encontrado:**
+**Vector found:**
 
 ```bash
-# comandos de privesc
+# privesc commands
 ```
 
 ---
@@ -79,8 +79,8 @@ nmap -sV -sC -p- --min-rate 5000 -oN scans/nmap_full.txt <IP>
 
 ---
 
-## Lições Aprendidas
+## Lessons Learned
 
-- **Vulnerabilidade:** o que estava errado na configuração/serviço
-- **Mundo real:** onde essa falha aparece em ambientes corporativos
-- **Defesa:** como mitigar esse vetor
+- **Vulnerability:** what was misconfigured/broken in the service
+- **Real world:** where this flaw appears in corporate environments
+- **Defense:** how to mitigate this vector

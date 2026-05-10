@@ -1,25 +1,25 @@
 # Meow
 
-**OS:** Linux | **Dificuldade:** Very Easy | **Data:** 03/04/2026
+**OS:** Linux | **Difficulty:** Very Easy | **Date:** 03/04/2026
 
-## Resumo
+## Summary
 
-Meow foi uma máquina classificada como **Very Easy** que demonstrou riscos críticos de configurações inseguras em serviços de rede. A exploração foi direta: identificação de um serviço Telnet exposto e acesso root sem autenticação.
+Meow was a **Very Easy** machine that demonstrated critical risks of insecure network service configurations. The exploitation was straightforward: identification of an exposed Telnet service and root access without authentication.
 
-**Principais pontos:**
-- Serviço Telnet (porta 23) exposto sem exigência de autenticação forte
-- Conta root acessível sem senha definida
-- Falha de configuração básica que permite acesso total ao sistema
+**Key points:**
+- Telnet service (port 23) exposed without strong authentication
+- Root account accessible with no password set
+- Basic misconfiguration allowing full system access
 
-## Reconhecimento
+## Reconnaissance
 
-### Scan Nmap
+### Nmap Scan
 
 ```bash
 nmap -sV -sC -p- --min-rate 5000 10.129.124.197
 ```
 
-**Resultado:**
+**Result:**
 
 ```
 PORT   STATE SERVICE VERSION
@@ -29,46 +29,44 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ![Nmap scan](screenshots/nmap%20command.png)
 
-O scan revelou apenas uma porta aberta: **23/tcp** rodando Telnet.
+The scan revealed only one open port: **23/tcp** running Telnet.
 
-## Enumeração
+## Enumeration
 
-Com o serviço Telnet identificado, foi testado o acesso direto ao serviço:
+With the Telnet service identified, direct access was tested:
 
 ```bash
 telnet 10.129.124.197 23
 ```
 
-Durante a enumeração, descobriu-se que:
-- O serviço Telnet estava aceitando conexões
-- A conta **root** não possuía senha definida
-- Foi possível fazer login diretamente como root sem autenticação
+During enumeration, it was discovered that:
+- The Telnet service was accepting connections
+- The **root** account had no password set
+- It was possible to log in directly as root without authentication
 
-## Exploração
+## Exploitation
 
-### Acesso Inicial
+### Initial Access
 
-O acesso à máquina foi obtido diretamente como root através do Telnet:
+Access to the machine was obtained directly as root via Telnet:
 
 ```bash
 telnet 10.129.124.197 23
 # Login: root
-# Password: <vazio>
+# Password: <empty>
 ```
 
-![Sessão Telnet](screenshots/telnet.png)
+![Telnet session](screenshots/telnet.png)
 
-### Coleta da Flag
+### Flag Collection
 
-Após o login, a flag foi localizada e lida diretamente:
+After login, the flag was located and read directly:
 
 ```bash
 cat flag.txt
 ```
 
-
-
-## Escalação de Privilégios
+## Privilege Escalation
 
 N/A
 
@@ -76,36 +74,20 @@ N/A
 
 - **Flag:** `HTB{b40abdfe23665f766f9c61ecba8a4c19}`
 
-## Lições Aprendidas
+## Lessons Learned
 
-### Impacto no Mundo Real
+- **Vulnerability:** Telnet transmits all data in plaintext including credentials, and the root account had no password set — a critical misconfiguration granting immediate full access
+- **Real world:** Legacy network equipment (routers, switches, industrial systems) often still ships with Telnet enabled and default/empty credentials, making this a common finding in internal pentests
+- **Defense:** Disable Telnet entirely and replace with SSH; enforce password policies that prevent empty passwords; audit accounts with `chkpasswd`; restrict management interfaces to dedicated VLANs
 
-1. **Telnet é um protocolo inseguro**
-   - Telnet transmite todos os dados em texto claro, incluindo credenciais
-   - Deve ser substituído por SSH sempre que possível
-   - Se o uso for inevitável, restringir acesso via firewall e usar autenticação forte
-
-2. **Contas sem senha são críticas**
-   - Contas privilegiadas (root) devem sempre exigir autenticação
-   - Implementar políticas de senha forte e bloqueio de contas vazias
-   - Usar autenticação multifator quando disponível
-
-3. **Defesas Recomendadas**
-   - Desabilitar serviços legados como Telnet
-   - Implementar controle de acesso baseado em rede (firewalls, VLANs)
-   - Auditar configurações de contas periodicamente
-   - Usar ferramentas como `chkpasswd` para identificar contas sem senha
-
-### Comandos Úteis
-
+### Useful Commands
 
 ```bash
-#comando nmap para descoberta de portas
+# Nmap scan for port discovery
 nmap -sV -sC -p- --min-rate 5000 -oN nmap_full.txt 10.129.124.197
 ```
 
-# Conexão Telnet
 ```bash
-#conexão na porta vulnerável
+# Telnet connection
 telnet 10.129.124.197
 ```
